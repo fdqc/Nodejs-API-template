@@ -21,8 +21,8 @@ $ npm install
 
 In future releases this template should have:
 
-- [ x ] User registration.
-- [ x ] Authentication and authorization using JWT.
+- [x] User registration.
+- [x] Authentication and authorization using JWT.
 - [ ] Requests validation.
 - [ ] Test cases.
 - [ ] Git hooks with Husky.
