@@ -1,7 +1,7 @@
 const whitelist = JSON.parse(process.env.CORS || '[]');
 
 const validateOrigin = (origin, callback) => {
-  if (whitelist.indexOf(origin) !== -1) {
+  if (whitelist.indexOf(origin) !== -1 || !origin) {
     callback(null, true);
   } else {
     /** @todo: add an error handler for cors */
