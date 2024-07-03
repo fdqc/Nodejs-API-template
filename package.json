@@ -24,6 +24,8 @@
     "luxon": "^3.4.4",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
     "winston": "^3.6.0"
   },
   "devDependencies": {

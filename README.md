@@ -23,11 +23,11 @@ In future releases this template should have:
 
 - [x] User registration.
 - [x] Authentication and authorization using JWT.
-- [ ] Requests validation.
+- [x] Requests validation.
 - [ ] Test cases.
 - [ ] Git hooks with Husky.
 - [ ] Dockerfile.
-- [ ] Swagger Docs.
+- [x] Swagger Docs.
 - [ ] Usage examples.
 
 # Project status

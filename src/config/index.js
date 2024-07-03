@@ -12,6 +12,17 @@ const config = {
   saltRounds: parseInt(process.env.SALT_ROUNDS || '10', 10),
   jwtSecret: process.env.JWT_SECRET,
   tokenExpiresInMinutes: process.env.TOKEN_EXPIRES_IN_MINUTES,
+  swaggerJsDocOptions: {
+    swaggerDefinition: {
+      openapi: '3.0.0',
+      info: {
+        title: 'API docs',
+        version: '1.0.0',
+        description: 'API documentation',
+      },
+    },
+    apis: ['./src/api/*/*.yml'],
+  },
 };
 
 module.exports = config;

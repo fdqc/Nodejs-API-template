@@ -4,6 +4,7 @@ const configRoutes = require('../api/routes');
 const { corsOptions } = require('../config');
 const { errorHandler, authErrorHandler, notFoundErrorHandler } = require('../middlewares/errorHandlers');
 const { initPassport } = require('./passport');
+const initAPIDocs = require('./swagger');
 
 const expressLoader = (app) => {
   const passport = initPassport();
@@ -21,7 +22,7 @@ const expressLoader = (app) => {
   app.use(helmet());
   app.disable('x-powered-by');
 
-  /** @todo: swagger */
+  initAPIDocs(app);
 };
 
 module.exports = expressLoader;
