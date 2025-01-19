@@ -1,4 +1,3 @@
-require('dotenv').config();
 const corsOptions = require('./cors');
 
 const environment = process.env.NODE_ENV || 'development';
