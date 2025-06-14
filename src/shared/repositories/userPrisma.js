@@ -1,10 +1,10 @@
 const prisma = require('../utils/database');
 
-const createUser = async ({ username, email, hashedPassword }) => {
+const create = async ({ username, email, hashedPassword }) => {
   const user = await prisma.user.create({
     data: {
       email,
-      name: username,
+      username,
       password: hashedPassword,
     },
   });
@@ -12,11 +12,11 @@ const createUser = async ({ username, email, hashedPassword }) => {
   return {
     id: user?.id,
     email: user.email,
-    username: user.name,
+    username: user.username,
   };
 };
 
-const findUserByEmail = async ({ email }) => {
+const findByEmail = async ({ email }) => {
   const user = await prisma.user.findUnique({
     where: {
       email,
@@ -26,26 +26,26 @@ const findUserByEmail = async ({ email }) => {
   return {
     id: user?.id,
     email: user?.email,
-    username: user?.name,
+    username: user?.username,
     password: user?.password,
   };
 };
 
-const findUser = async ({ where }) => {
+const findById = async (id) => {
   const user = await prisma.user.findUnique({
-    where,
+    where: { id },
   });
 
   return {
     id: user?.id,
     email: user?.email,
-    username: user?.name,
+    username: user?.username,
     password: user?.password,
   };
 };
 
 module.exports = {
-  createUser,
-  findUserByEmail,
-  findUser,
+  create,
+  findByEmail,
+  findById,
 };

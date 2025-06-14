@@ -10,7 +10,7 @@ const config = {
   basePath: '/api',
   saltRounds: parseInt(process.env.SALT_ROUNDS || '10', 10),
   jwtSecret: process.env.JWT_SECRET,
-  tokenExpiresInMinutes: process.env.TOKEN_EXPIRES_IN_MINUTES,
+  tokenExpiresInSeconds: process.env.TOKEN_EXPIRES_IN_SECONDS,
   swaggerJsDocOptions: {
     swaggerDefinition: {
       openapi: '3.0.0',
