@@ -5,10 +5,7 @@ const { DateTime } = require('luxon');
 const { saltRounds, jwtSecret, tokenExpiresInSeconds } = require('../../config');
 const AuthError = require('../../shared/errors/authError');
 const NotFoundError = require('../../shared/errors/notFoundError');
-
-// This is an example of how you can switch between two different repositories
-const userRepository = require('../../shared/repositories/userPrisma');
-// const userRepository = require('../../shared/repositories/userInMemory');
+const userRepository = require('../../shared/repositories/user');
 
 const comparePassword = async (password, hashedPassword) => {
   const passwordsMatch = await bcrypt.compare(password, hashedPassword);
@@ -26,9 +23,10 @@ const generateExpiryDate = () => {
   return parseInt(expiresIn, 10);
 };
 
-const generateToken = ({ id }) => {
+const generateToken = ({ id, permissions }) => {
   const token = jwt.encode({
     id,
+    permissions,
     exp: generateExpiryDate(),
   }, jwtSecret);
 
@@ -37,24 +35,24 @@ const generateToken = ({ id }) => {
 
 const registerUser = async ({ username, email, password }) => {
   const hashedPassword = await bcrypt.hash(password, saltRounds);
-  const user = await userRepository.create({ username, email, hashedPassword });
-  return generateToken({ id: user.id });
+  const user = await userRepository.insert({ username, email, hashedPassword });
+  return generateToken({ id: user.id, permissions: user.permissions || [] });
 };
 
 const logUser = async ({ email, password }) => {
   const user = await userRepository.findByEmail({ email });
 
-  if (!user.id) {
-    throw new NotFoundError('user_not_found');
+  if (!user) {
+    throw new NotFoundError('User not found');
   }
 
   const passwordsMatch = await comparePassword(password, user.password);
 
   if (!passwordsMatch) {
-    throw new AuthError('unauthorized');
+    throw new AuthError('Unauthorized');
   }
 
-  return generateToken({ id: user.id });
+  return generateToken({ id: user.id, permissions: user.permissions });
 };
 
 module.exports = {

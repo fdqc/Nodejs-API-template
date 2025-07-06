@@ -6,10 +6,7 @@ const passportJWT = require('passport-jwt');
 const { jwtSecret } = require('../config');
 const NotFoundError = require('../shared/errors/notFoundError');
 const AuthError = require('../shared/errors/authError');
-
-// This is an example of how you can switch between two different repositories
-const userRepository = require('../shared/repositories/userPrisma');
-// const userRepository = require('../shared/repositories/userInMemory');
+const userRepository = require('../shared/repositories/user');
 
 const { Strategy } = passportJWT;
 
@@ -38,7 +35,7 @@ const initPassport = () => {
   passport.use(new Strategy(options, async (payload, done) => {
     const user = await userRepository.findById(payload.id);
 
-    if (user.id) { return done(null, payload); }
+    if (user) { return done(null, payload); }
     return done(new NotFoundError('user_not_found'), false);
   }));
 

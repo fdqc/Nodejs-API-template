@@ -2,7 +2,12 @@ const cors = require('cors');
 const helmet = require('helmet');
 const configRoutes = require('../api/routes');
 const { corsOptions } = require('../config');
-const { errorHandler, authErrorHandler, notFoundErrorHandler } = require('../middlewares/errorHandlers');
+const {
+  errorHandler,
+  authErrorHandler,
+  notFoundErrorHandler,
+  forbiddenErrorHandler,
+} = require('../middlewares/errorHandlers');
 const { initPassport } = require('./passport');
 const initAPIDocs = require('./swagger');
 
@@ -17,6 +22,7 @@ const expressLoader = (app) => {
 
   app.use(authErrorHandler);
   app.use(notFoundErrorHandler);
+  app.use(forbiddenErrorHandler);
   app.use(errorHandler);
 
   app.use(helmet());

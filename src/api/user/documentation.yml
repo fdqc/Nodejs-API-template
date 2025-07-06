@@ -1,0 +1,59 @@
+components:
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+    UserPermission:
+      type: object
+      properties:
+        permissions:
+          type: array
+          items:
+            type: string
+
+paths:
+  /users:
+    get:
+      summary: Get users list
+      security:
+        - jwtAuth: []
+      responses:
+        '200':
+          description: A list of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+  /users/{id}/permissions:
+    put:
+      summary: Set user permissions
+      security:
+        - jwtAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPermission'
+      responses:
+        '204':
+          description: No content

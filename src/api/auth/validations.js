@@ -5,15 +5,15 @@ const emailValidation = check('email')
     checkNull: true,
     checkFalsy: true,
   })
-  .withMessage('email_required')
+  .withMessage('email required')
   .isEmail()
-  .withMessage('invalid_email');
+  .withMessage('invalid email');
 
 const passwordValidation = check('password')
   .exists({
     checkNull: true,
     checkFalsy: true,
-  }).withMessage('password_required');
+  }).withMessage('password required');
 
 module.exports = {
   authValidation: [emailValidation, passwordValidation],

@@ -4,7 +4,7 @@
  */
 const users = [];
 
-const create = async ({ username, email, hashedPassword }) => {
+const insert = async ({ username, email, hashedPassword }) => {
   users.push({
     id: null,
     email,
@@ -22,30 +22,34 @@ const create = async ({ username, email, hashedPassword }) => {
   };
 };
 
-const findByEmail = async ({ email }) => {
-  const user = users.find((u) => u.email === email);
+const findByEmail = async ({ email }) => users.find((u) => u.email === email);
 
-  return {
-    id: user?.id,
-    email: user?.email,
-    username: user?.username,
-    password: user?.password,
-  };
+const findById = async (id) => users.find((u) => u.id === id);
+
+const findMany = async ({ skip, take }) => {
+  const startIndex = skip;
+  const endIndex = startIndex + take;
+
+  return users.slice(startIndex, endIndex).map((user) => ({
+    id: user.id,
+    email: user.email,
+    username: user.username,
+    permissions: user.permissions || [],
+  }));
 };
 
-const findById = async (id) => {
-  const user = users.find((u) => u.id === id);
+const updateOne = async ({ id }, { permissions }) => {
+  const userIndex = users.findIndex((u) => u.id === id);
 
-  return {
-    id: user?.id,
-    email: user?.email,
-    username: user?.username,
-    password: user?.password,
-  };
+  if (userIndex !== -1) {
+    users[userIndex].permissions = permissions;
+  }
 };
 
 module.exports = {
-  create,
+  insert,
   findByEmail,
   findById,
+  findMany,
+  updateOne,
 };
